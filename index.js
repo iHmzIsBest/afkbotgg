@@ -1,29 +1,20 @@
 const mineflayer = require('mineflayer');
 
-function createBot() {
-    const bot = mineflayer.createBot({
-        host: 'SUNUCU_IP_ADRESIN', // Burayı kendi IP'nle değiştir
-        port: 25565,                // Portun farklıysa değiştir
-        username: '724_Anarchy_Bot', 
-        version: '1.21.1'           // Sunucu sürümün (1.21.1 veya 1.21.11)
-    });
+const bot = mineflayer.createBot({
+  host: 'IP_ADRESIN',       // Sadece sayısal IP veya adres (Örn: 123.45.67.89)
+  port: 25565,              // Portun 25565 değilse mutlaka değiştir!
+  username: 'AnarchyBot724',
+  version: '1.21.1',        // 1.21.11 yerine 1.21.1 yazmayı dene (uyumludur)
+  hideErrors: false         // Hataları gizleme ki görelim
+});
 
-    bot.on('spawn', () => {
-        console.log('Bot sunucuya girdi ve aktif!');
-        // Botun sunucudan atılmaması için her 30 saniyede bir zıplamasını sağlar
-        setInterval(() => {
-            bot.setControlState('jump', true);
-            setTimeout(() => bot.setControlState('jump', false), 500);
-        }, 30000);
-    });
+bot.on('spawn', () => {
+  console.log('BOT SUNUCUDA! ŞU AN AKTİF.');
+  // Botun kapanmaması için sonsuz döngü
+  setInterval(() => {
+    console.log('Bot hala burada...');
+  }, 60000);
+});
 
-    // Bot sunucudan düşerse otomatik geri bağlanmasını sağlar
-    bot.on('end', () => {
-        console.log('Bağlantı kesildi, 10 saniye içinde tekrar bağlanıyor...');
-        setTimeout(createBot, 10000);
-    });
-
-    bot.on('error', (err) => console.log('Hata:', err));
-}
-
-createBot();
+bot.on('error', (err) => console.log('HATA ÇIKTI: ' + err));
+bot.on('end', () => console.log('Bağlantı kesildi.'));
